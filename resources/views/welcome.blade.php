@@ -59,6 +59,7 @@
         .content img {
             max-width: 100%;
             height: auto;
+            max-height: 300px; /* Set maximum height */
         }
 
         .content h2 {
@@ -154,6 +155,21 @@
             cursor: pointer;
             margin: 10px;
         }
+
+        .materi-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .materi-content img {
+            max-width: 50%;
+            height: auto;
+        }
+
+        .materi-content .text {
+            max-width: 50%;
+        }
     </style>
 </head>
 
@@ -169,40 +185,24 @@
         </ul>
     </div>
 
-    <div id="materi1" class="content full-page">
+    @foreach($materi as $materi)
+    <div id="materi{{ $loop->index + 1 }}" class="content full-page">
         <h2>MATERI</h2>
-        <h3>Aksara Carakan</h3>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Javanese_script_chart.svg/1200px-Javanese_script_chart.svg.png" alt="Aksara Jawa">
-        <ul>
-            <li>Aksara Carakan, juga dikenal sebagai Aksara Jawa, adalah sistem penulisan tradisional yang digunakan untuk menulis bahasa Jawa.</li>
-            <li>Aksara Carakan terdiri dari 20 aksara dasar atau konsonan yang dikenal sebagai "nglegena".</li>
-        </ul>
-        <button class="next-button" onclick="showContent('materi2')">Selanjutnya</button>
-        <button class="home-button" onclick="hideContent('materi1')">🏠</button>
+        <div class="materi-content">
+            @if($materi->gambar)
+            <img src="{{ asset('storage/' . $materi->gambar) }}" alt="{{ $materi->materi }}">
+            @endif
+            <div class="text">
+                <h3>{{ $materi->materi }}</h3>
+                <p>{{ $materi->materi }}</p>
+            </div>
+        </div>
+        @if(!$loop->last)
+        <button class="next-button" onclick="showContent('materi{{ $loop->index + 2 }}')">Selanjutnya</button>
+        @endif
+        <button class="home-button" onclick="hideContent('materi{{ $loop->index + 1 }}')">🏠</button>
     </div>
-
-    <div id="materi2" class="content full-page">
-        <h2>MATERI</h2>
-        <h3>Aksara Murda</h3>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Javanese_script_chart.svg/1200px-Javanese_script_chart.svg.png" alt="Aksara Jawa">
-        <ul>
-            <li>Aksara Murda adalah aksara yang digunakan untuk menulis nama-nama orang penting atau kata-kata yang dianggap penting.</li>
-            <li>Aksara Murda terdiri dari beberapa aksara yang berbeda dari aksara Carakan.</li>
-        </ul>
-        <button class="next-button" onclick="showContent('materi3')">Selanjutnya</button>
-        <button class="home-button" onclick="hideContent('materi2')" onclick="hideContent('materi2')">🏠</button>
-    </div>
-
-    <div id="materi3" class="content full-page">
-        <h2>MATERI</h2>
-        <h3>Aksara Swara</h3>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Javanese_script_chart.svg/1200px-Javanese_script_chart.svg.png" alt="Aksara Jawa">
-        <ul>
-            <li>Aksara Swara adalah aksara yang digunakan untuk menulis vokal atau suara.</li>
-            <li>Aksara Swara terdiri dari beberapa aksara yang berbeda dari aksara Carakan dan Murda.</li>
-        </ul>
-        <button class="home-button" onclick="hideContent('materi3')">🏠</button>
-    </div>
+    @endforeach
 
     <div id="kuis" class="content full-page">
         <h2>KUIS</h2>
@@ -219,7 +219,6 @@
         <button class="home-button" onclick="hideContent('kuis')">🏠</button>
     </div>
 
-
     <div id="tulisAksara" class="content full-page">
         <h2>Tulis Aksara Jawa</h2>
         <div class="canvas-container">
@@ -234,10 +233,12 @@
     <script>
         function showContent(id) {
             document.getElementById(id).style.display = 'block';
+            localStorage.setItem('lastContent', id);
         }
 
         function hideContent(id) {
             document.getElementById(id).style.display = 'none';
+            localStorage.removeItem('lastContent');
         }
 
         const canvas = document.getElementById('drawingCanvas');
@@ -272,6 +273,13 @@
 
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        window.onload = function() {
+            const lastContent = localStorage.getItem('lastContent');
+            if (lastContent) {
+                showContent(lastContent);
+            }
         }
     </script>
 </body>
