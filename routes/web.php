@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\SoalkuisController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -24,5 +25,9 @@ Route::post('/materi/store', [MateriController::class, 'store'])->name('materi.s
 Route::post('/materi/update/{id}', [MateriController::class, 'update'])->name('materi.update');
 Route::delete('/materi/destroy/{id}', [MateriController::class, 'destroy'])->name('materi.destroy');
 Route::get('materi/{id_materi}', 'App\Http\Controllers\MateriController@show');
+Route::get('soalkuis', 'App\Http\Controllers\SoalKuisController@index');
+Route::post('/soal/store', [SoalkuisController::class, 'store'])->name('soal.store');
+
+
 
 

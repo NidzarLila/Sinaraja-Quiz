@@ -59,7 +59,8 @@
         .content img {
             max-width: 100%;
             height: auto;
-            max-height: 300px; /* Set maximum height */
+            max-height: 300px;
+            /* Set maximum height */
         }
 
         .content h2 {
@@ -206,15 +207,20 @@
 
     <div id="kuis" class="content full-page">
         <h2>KUIS</h2>
-        <h3>Aksara Jawa</h3>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Javanese_script_chart.svg/1200px-Javanese_script_chart.svg.png" alt="Aksara Jawa">
-        <p>1. Tulisan aksara jawa di atas dibaca.....</p>
+        @foreach($soal as $index => $quiz)
+        <p>{{ $index + 1 }}. {{ $quiz->pertanyaan }}</p>
+        @if($quiz->gambar)
+        <img src="{{ asset('storage/' . $quiz->gambar) }}" alt="Gambar Soal"><br>
+        @endif
         <div>
-            <label><input type="radio" name="quiz" value="a"> a</label><br>
-            <label><input type="radio" name="quiz" value="b"> b</label><br>
-            <label><input type="radio" name="quiz" value="c"> c</label><br>
-            <label><input type="radio" name="quiz" value="d"> d</label>
+            @php
+            $pilihan = json_decode($quiz->pilihan, true);
+            @endphp
+            @foreach($pilihan as $key => $pilihan)
+            <label><input type="radio" name="quiz{{ $index }}" value="{{ $key }}"> {{ $pilihan }}</label><br>
+            @endforeach
         </div>
+        @endforeach
         <button class="quiz-button">Selanjutnya</button>
         <button class="home-button" onclick="hideContent('kuis')">🏠</button>
     </div>

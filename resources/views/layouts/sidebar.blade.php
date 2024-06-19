@@ -12,6 +12,11 @@
         <span class="menu-title">Materi</span>
         <i class="menu-arrow"></i>
       </a>
+      <a class="nav-link" href="soalkuis">
+        <i class="menu-icon mdi mdi-table"></i>
+        <span class="menu-title">Soal Kuis</span>
+        <i class="menu-arrow"></i>
+      </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="../pages/ui-features/buttons.html">Buttons</a></li>
