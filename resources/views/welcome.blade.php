@@ -208,20 +208,22 @@
     <div id="kuis" class="content full-page">
         <h2>KUIS</h2>
         @foreach($soal as $index => $quiz)
-        <p>{{ $index + 1 }}. {{ $quiz->pertanyaan }}</p>
-        @if($quiz->gambar)
-        <img src="{{ asset('storage/' . $quiz->gambar) }}" alt="Gambar Soal"><br>
-        @endif
-        <div>
-            @php
-            $pilihan = json_decode($quiz->pilihan, true);
-            @endphp
-            @foreach($pilihan as $key => $pilihan)
-            <label><input type="radio" name="quiz{{ $index }}" value="{{ $key }}"> {{ $pilihan }}</label><br>
-            @endforeach
+        <div class="quiz-item">
+            <p>{{ $index + 1 }}. {{ $quiz->pertanyaan }}</p>
+            @if($quiz->gambar)
+            <img src="{{ asset('storage/' . $quiz->gambar) }}" alt="Gambar Soal"><br>
+            @endif
+            <div>
+                @php
+                $pilihan = json_decode($quiz->pilihan, true);
+                @endphp
+                @foreach($pilihan as $key => $pilihan)
+                <label><input type="radio" name="quiz{{ $index }}" value="{{ $key }}" data-correct="{{ $key == $quiz->jawaban ? 'true' : 'false' }}"> {{ $pilihan }}</label><br>
+                @endforeach
+            </div>
         </div>
         @endforeach
-        <button class="quiz-button">Selanjutnya</button>
+        <button class="quiz-button" onclick="checkAnswers()">Selanjutnya</button>
         <button class="home-button" onclick="hideContent('kuis')">🏠</button>
     </div>
 
@@ -245,6 +247,22 @@
         function hideContent(id) {
             document.getElementById(id).style.display = 'none';
             localStorage.removeItem('lastContent');
+        }
+
+        function checkAnswers() {
+            const quizzes = document.querySelectorAll('#kuis .quiz-item');
+            quizzes.forEach((quiz, index) => {
+                const selected = quiz.querySelector('input[type="radio"]:checked');
+                if (selected) {
+                    if (selected.getAttribute('data-correct') === 'true') {
+                        alert(`Jawaban untuk soal ${index + 1} benar!`);
+                    } else {
+                        alert(`Jawaban untuk soal ${index + 1} salah!`);
+                    }
+                } else {
+                    alert(`Anda belum menjawab soal ${index + 1}`);
+                }
+            });
         }
 
         const canvas = document.getElementById('drawingCanvas');
