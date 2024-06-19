@@ -21,5 +21,8 @@ Route::get('/', 'App\Http\Controllers\DashboardController@user');
 Route::get('dashboard', 'App\Http\Controllers\DashboardController@index');
 Route::get('materi', 'App\Http\Controllers\MateriController@index');
 Route::post('/materi/store', [MateriController::class, 'store'])->name('materi.store');
+Route::post('/materi/update/{id}', [MateriController::class, 'update'])->name('materi.update');
+Route::delete('/materi/destroy/{id}', [MateriController::class, 'destroy'])->name('materi.destroy');
 Route::get('materi/{id_materi}', 'App\Http\Controllers\MateriController@show');
+
 

@@ -194,7 +194,7 @@
             @endif
             <div class="text">
                 <h3>{{ $materi->materi }}</h3>
-                <p>{{ $materi->materi }}</p>
+                <!-- <p>{{ $materi->materi }}</p> -->
             </div>
         </div>
         @if(!$loop->last)

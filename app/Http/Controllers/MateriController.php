@@ -31,4 +31,16 @@ class MateriController extends Controller
 
         return redirect('materi')->with('pesan', 'Data berhasil ditambahkan');
     }
+    public function update(Request $request, $id)
+    {
+        $materi = Materi::find($id);
+        $materi->update($request->all());
+        return redirect('materi')->with('pesan', 'Data berhasil diubah');
+    }
+    public function destroy($id)
+    {
+        $materi = Materi::find($id);
+        $materi->delete();
+        return redirect('materi')->with('pesan', 'Data berhasil dihapus');
+    }
 }

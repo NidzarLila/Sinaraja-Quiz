@@ -21,7 +21,7 @@
                     @foreach($materi as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->materi }}</td>
+                        <td><pre>{{ $item->materi }}</pre></td>
                         <td>
                             @if($item->gambar)
                                 <a href="{{ asset('storage/' . $item->gambar) }}" target="_blank">
@@ -84,20 +84,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('materi.update', $item) }}" method="POST">
+                <form action="{{ route('materi.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                  
                     <div class="form-group">
-                        <label for="title">Judul</label>
-                        <input type="text" name="title" id="title" class="form-control" value="{{ $item->title }}" required>
+                        <label for="materi">Materi</label>
+                        <textarea name="materi" id="materi" class="form-control" required>{{ $item->materi }}</textarea>
                     </div>
                     <div class="form-group">
-                        <label for="content">Konten</label>
-                        <textarea name="content" id="content" class="form-control" required>{{ $item->content }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="image_url">URL Gambar</label>
-                        <input type="url" name="image_url" id="image_url" class="form-control" value="{{ $item->image_url }}">
+                        <label for="gambar">Gambar</label>
+                        @if($item->gambar)
+                            <div>
+                                <img src="{{ asset('storage/' . $item->gambar) }}" class="img-thumbnail" alt="{{ $item->materi }}">
+                            </div>
+                        @endif
+                        <input type="file" name="gambar" id="gambar" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
@@ -120,7 +121,7 @@
             </div>
             <div class="modal-body">
                 <p>Apakah Anda yakin ingin menghapus materi ini?</p>
-                <form action="{{ url('materi.destroy', $item) }}" method="POST">
+                <form action="{{ route('materi.destroy', $item->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Hapus</button>
