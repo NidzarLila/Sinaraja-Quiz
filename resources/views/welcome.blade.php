@@ -251,18 +251,27 @@
 
         function checkAnswers() {
             const quizzes = document.querySelectorAll('#kuis .quiz-item');
+            let allCorrect = true;
+
             quizzes.forEach((quiz, index) => {
                 const selected = quiz.querySelector('input[type="radio"]:checked');
+                const correctAnswer = quiz.querySelector('input[type="radio"][data-correct="true"]');
                 if (selected) {
-                    if (selected.getAttribute('data-correct') === 'true') {
+                    if (selected.value === correctAnswer.value) {
                         alert(`Jawaban untuk soal ${index + 1} benar!`);
                     } else {
                         alert(`Jawaban untuk soal ${index + 1} salah!`);
+                        allCorrect = false;
                     }
                 } else {
                     alert(`Anda belum menjawab soal ${index + 1}`);
+                    allCorrect = false;
                 }
             });
+
+            if (allCorrect) {
+                alert('Nilai Anda: 100');
+            }
         }
 
         const canvas = document.getElementById('drawingCanvas');
