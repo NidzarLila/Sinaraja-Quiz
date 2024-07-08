@@ -424,6 +424,7 @@
                 row.appendChild(explanationCell);
                 reviewTableBody.appendChild(row);
             });
+<<<<<<< Updated upstream
 
             const totalScore = (correctCount / quizzes.length) * 100;
             document.getElementById('score').textContent = 'Total Skor: ' + totalScore;
@@ -432,8 +433,12 @@
 
             hideContent('kuis');
             showContent('review');
+=======
+            if (allCorrect) {
+                alert('Nilai Anda: 100');
+            }
+>>>>>>> Stashed changes
         }
-
         const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d');
         let drawing = false;
